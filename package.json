@@ -10,5 +10,9 @@
   "license": "ISC",
   "engines": {
     "node": "9.10.1"
+  },
+  "dependencies": {
+    "pg": "^7.4.1",
+    "url": "^0.11.0"
   }
 }
