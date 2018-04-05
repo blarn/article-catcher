@@ -23,12 +23,18 @@ if(params.auth == null) {
 	var pool = new pg.Pool(config);
 }
 
-pool.query('UPDATE users SET firstName=\'Brian\', lastName=\'Pynkley\' WHERE id=2;', (err, res) => {
+
+pool.query('INSERT INTO urls(url, name, title) VALUES(\'https://www.theatlantic.com/politics/archive/2018/04/why-big-business-isnt-defending-amazon-against-trump/557264/\',\'Anna\',\'Why Big Business Isn\'t Defending Amazon Against Trump\');', (err, res) => {
   console.log(err,res);
   pool.end();
 });
 
 /*
+pool.query('UPDATE users SET firstName=\'Brian\', lastName=\'Pynkley\' WHERE id=2;', (err, res) => {
+  console.log(err,res);
+  pool.end();
+});
+
 pool.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
   if (err) throw err;
   for (let row of res.rows) {
