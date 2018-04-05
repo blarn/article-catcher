@@ -23,7 +23,7 @@ if(params.auth == null) {
 	var pool = new pg.Pool(config);
 }
 
-pool.query('UPDATE users SET firstName=\'Brian\', lastName=\'Pynkley\' WHERE id=1;', (err, res) => {
+pool.query('UPDATE users SET firstName=\'Brian\', lastName=\'Pynkley\' WHERE id=2;', (err, res) => {
   console.log(err,res);
   pool.end();
 });
