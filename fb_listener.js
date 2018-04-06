@@ -33,7 +33,7 @@ login({appState: JSON.parse(fs.readFileSync(__dirname + '/appstate.json', 'utf8'
 					if(message.senderID == threadIDs.Anna) name = "Anna";
 					else if(message.senderID == threadIDs.Brad) name = "Brad";
 
-					add_url(url, name)
+					add_url(url, name, url)
 				}
 			}
 		}

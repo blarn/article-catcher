@@ -15,32 +15,25 @@ if(process.env.DATABASE_URL) {
 	}
 }
 
+const pool = new pg.Pool(config);
+
 module.exports = function() {
 	//TODO title and timestamp
-	this.add_url = function(url, name) {
-		const pool = new pg.Pool(config);
-
-		//var query = "INSERT INTO urls(url, name) VALUES(\'$1\',\'$2\');", [url, name]
-
-		pool.query("INSERT INTO urls(url, name) VALUES($1,$2);", [url, name], (err, res) => {
+	this.add_url = function(url, name, title) {
+		//const pool = new pg.Pool(config);
+		pool.query("INSERT INTO urls(url, name, title) VALUES($1,$2, $3);", [url, name, title], (err, res) => {
 			if(err) return console.error(err);
-			pool.end();
+			//pool.end();
 		});
 	},
 
-	this.get_urls = function() {
-		const pool = new pg.Pool(config);
-
-		var query ='SELECT url, name FROM urls;'
-
-		pool.query(query, (err, res) => {
-			if(err) return console.error(err);
-			//json(res.rows);
-
-			//do stuff with result
-
-
-			pool.end();
+	this.get_urls = function(callback) {
+		//const pool = new pg.Pool(config);
+		pool.query('SELECT url, name FROM urls;', (err, res) => {
+			if(err) return callback(err)
+			//console.log(res.rows)
+			callback(null, res.rows)
+			//pool.end();
 		});
 	}
 };
