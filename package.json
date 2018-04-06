@@ -1,7 +1,6 @@
 {
   "name": "heroku_testing_app",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,7 +11,11 @@
     "node": "9.10.1"
   },
   "dependencies": {
+    "dot": "^1.1.2",
+    "facebook-chat-api": "^1.5.0",
     "pg": "^7.4.1",
     "url": "^0.11.0"
-  }
+  },
+  "devDependencies": {},
+  "description": ""
 }
