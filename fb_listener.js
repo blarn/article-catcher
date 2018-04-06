@@ -1,6 +1,6 @@
 const fs = require("fs");
 const login = require("facebook-chat-api");
-require(__dirname + '/index.js')();
+require(__dirname + '/db.js')();
 
 var urlRE= new RegExp("(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\\s]{2,}|www\.[a-zA-Z0-9]\.[^\\s]{2,})",'g');
 
@@ -39,20 +39,3 @@ login({appState: JSON.parse(fs.readFileSync(__dirname + '/appstate.json', 'utf8'
 		}
 	});
 });
-
-/*
-module.exports = function() {
-	this.updateHTML = function() {
-		var l = data.length;
-		for (var i = 0; i < l; i++) {
-			var cur = data[i];
-			if(cur.html_status == "missing") {
-				fs.appendFile(__dirname + '/site.html', '<p><b>'+cur.author+': </b><a href=\"'+cur.url+'\" target=\"_blank\">'+cur.url+'</a></p>\n', function (err) {
-					if (err) throw err;
-				});
-				cur.html_status = "added";
-			}
-		}
-	}
-};
-*/
