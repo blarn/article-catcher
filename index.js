@@ -1,39 +1,29 @@
-const pg = require('pg');
-const url = require('url')
+var express = require('express');
+var path = require('path');
+require(__dirname + '/db.js')();
 
-var config = null;
-if(process.env.DATABASE_URL) {
-	const params = url.parse(process.env.DATABASE_URL);
-	const auth = params.auth.split(':');
-	config = {
-		user: auth[0],
-		password: auth[1],
-		host: params.hostname,
-		port: params.port,
-		database: params.pathname.split('/')[1],
-		ssl: true
-	}
-}
+var app = express();
+var exphbs = require('express-handlebars'); 
+app.engine('handlebars', 
+	exphbs({defaultLayout: 'main'})); app.set('view engine', 'handlebars');
 
-const pool = new pg.Pool(config);
+app.set('port', process.env.PORT || 5000);
 
-module.exports = function() {
-	//TODO title and timestamp
-	this.add_url = function(url, name, title) {
-		//const pool = new pg.Pool(config);
-		pool.query("INSERT INTO urls(url, name, title) VALUES($1,$2, $3);", [url, name, title], (err, res) => {
-			if(err) return console.error(err);
-			//pool.end();
-		});
-	},
-
-	this.get_urls = function(callback) {
-		//const pool = new pg.Pool(config);
-		pool.query('SELECT url, name FROM urls;', (err, res) => {
-			if(err) return callback(err)
-			//console.log(res.rows)
-			callback(null, res.rows)
-			//pool.end();
-		});
-	}
+var options = { 
+	dotfiles: 'ignore', etag: false,
+	extensions: ['htm', 'html'],
+	index: false
 };
+app.use(express.static(path.join(__dirname, 'public') , options));
+
+app.get('/', function(req, res)
+{
+	get_urls((err, rows) => {
+		if(err) return console.error(err);
+		res.render('url_list', {urls: rows});
+	});
+});
+
+app.listen(app.get('port'),  function () {
+	console.log('Hello express started on http://localhost:' + app.get('port'));
+});

@@ -1,1 +1,1 @@
-web: node fb_listener.js | node index.js
+web: node index.js | node fb_listener.js
