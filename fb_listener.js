@@ -10,7 +10,7 @@ var threadIDs = {
 	Melly: 100001715037724
 };
 
-var tID = threadIDs.Anna;
+var tID = threadIDs[process.env.THREAD_ID];
 var data = [];
 
 login({appState: JSON.parse(fs.readFileSync(__dirname + '/appstate.json', 'utf8'))}, (err, api) => {
