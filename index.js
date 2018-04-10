@@ -20,7 +20,7 @@ app.get('/', function(req, res)
 {
 	get_urls((err, rows) => {
 		if(err) return console.error(err);
-		res.render('url_list', {urls: rows});
+		res.render('url_list', {urls: rows.reverse()});
 	});
 });
 
