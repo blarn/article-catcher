@@ -18,10 +18,9 @@ if(process.env.DATABASE_URL) {
 const pool = new pg.Pool(config);
 
 module.exports = function() {
-	//TODO title and timestamp
-	this.add_url = function(url, name, title) {
+	this.add_url = function(url, name, title, timestamp) {
 		//const pool = new pg.Pool(config);
-		pool.query("INSERT INTO urls(url, name, title) VALUES($1,$2, $3);", [url, name, title], (err, res) => {
+		pool.query("INSERT INTO urls(url, name, title, time) VALUES($1,$2,$3,to_timestamp($4));", [url, name, title, timestamp], (err, res) => {
 			if(err) return console.error(err);
 			//pool.end();
 		});
@@ -29,7 +28,7 @@ module.exports = function() {
 
 	this.get_urls = function(callback) {
 		//const pool = new pg.Pool(config);
-		pool.query('SELECT url, name, title FROM urls;', (err, res) => {
+		pool.query('SELECT url, name, title, time FROM urls;', (err, res) => {
 			if(err) return callback(err)
 			//console.log(res.rows)
 			callback(null, res.rows)

@@ -42,11 +42,11 @@ login({appState: JSON.parse(fs.readFileSync(__dirname + '/appstate.json', 'utf8'
 							} else {
 								var title = metadata.title;
 							}
-							add_url(url, name, title)
+							add_url(url, name, title, message.timestamp)
 						},
 						function (err) {
 							console.log(err)
-							add_url(url, name, url)
+							add_url(url, name, null, message.timestamp)
 						});
 				}
 			}
