@@ -25,5 +25,5 @@ app.get('/', function(req, res)
 });
 
 app.listen(app.get('port'),  function () {
-	console.log('Hello express started on http://localhost:' + app.get('port'));
+	console.log('started on http://localhost:' + app.get('port'));
 });
