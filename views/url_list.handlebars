@@ -1,5 +1,13 @@
 <div>
 {{#each urls}}
-  <p><b>{{this.name}}: </b><a href="{{this.url}}" target="_blank">{{this.url}}</a></p>
+  <p><b>{{this.name}}: </b><a href="{{this.url}}" target="_blank">
+
+  {{#if this.title}}
+    {{this.title}}
+  {{else}}
+    {{this.url}}
+  {{/if}}
+
+  </a></p>
 {{/each}}
 </div>
