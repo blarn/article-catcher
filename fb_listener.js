@@ -1,16 +1,20 @@
 const fs = require("fs");
 const login = require("facebook-chat-api");
+const urlMetadata = require('url-metadata');
 require(__dirname + '/db.js')();
 
 var urlRE= new RegExp("(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\\s]{2,}|www\.[a-zA-Z0-9]\.[^\\s]{2,})",'g');
 
-var threadIDs = {
+var id_nums = {
 	Brad:  100001935746541,
-	Anna:  100000798878012,
-	Melly: 100001715037724
+	Anna:  100000798878012
 };
+var id_names = {
+	100001935746541: "Brad",
+	100000798878012: "Anna"
+}
 
-var tID = threadIDs[process.env.THREAD_ID];
+var tID = id_nums[process.env.THREAD_ID || "Anna"];
 var data = [];
 
 login({appState: JSON.parse(fs.readFileSync(__dirname + '/appstate.json', 'utf8'))}, (err, api) => {
@@ -29,11 +33,21 @@ login({appState: JSON.parse(fs.readFileSync(__dirname + '/appstate.json', 'utf8'
 				var l = match.length;
 				for (var i = 0; i < l; i++) {
 					var url = match[i];
-					var name = "unknown"
-					if(message.senderID == threadIDs.Anna) name = "Anna";
-					else if(message.senderID == threadIDs.Brad) name = "Brad";
-
-					add_url(url, name, url)
+					var name = id_names[message.senderID]
+					if(name == null) name = "unknown";
+					urlMetadata(url).then(
+						function (metadata) {
+							if(metadata["og:type"]=="article") {
+								var title = metadata['og:title'];
+							} else {
+								var title = metadata.title;
+							}
+							add_url(url, name, title)
+						},
+						function (err) {
+							console.log(err)
+							add_url(url, name, url)
+						});
 				}
 			}
 		}
