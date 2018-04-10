@@ -29,7 +29,7 @@ module.exports = function() {
 
 	this.get_urls = function(callback) {
 		//const pool = new pg.Pool(config);
-		pool.query('SELECT url, name FROM urls;', (err, res) => {
+		pool.query('SELECT url, name, title FROM urls;', (err, res) => {
 			if(err) return callback(err)
 			//console.log(res.rows)
 			callback(null, res.rows)
