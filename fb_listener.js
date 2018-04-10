@@ -27,7 +27,7 @@ login({appState: JSON.parse(fs.readFileSync(__dirname + '/appstate.json', 'utf8'
 	api.listen((err, message) => {
 		if(err) return console.error(err);
 		if(message.threadID == tID) {
-			console.log("sender: "+message.senderID+" message: "+message.body)
+			console.log("time: "+message.timestamp+" sender: "+message.senderID+" message: "+message.body)
 			var match = (message.body).match(urlRE);
 			if(match) {
 				var l = match.length;

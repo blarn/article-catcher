@@ -19,20 +19,15 @@ const pool = new pg.Pool(config);
 
 module.exports = function() {
 	this.add_url = function(url, name, title, timestamp) {
-		//const pool = new pg.Pool(config);
-		pool.query("INSERT INTO urls(url, name, title, time) VALUES($1,$2,$3,to_timestamp($4));", [url, name, title, timestamp], (err, res) => {
+		pool.query("INSERT INTO urls(url, name, title, time) VALUES($1,$2,$3,to_timestamp($4));", [url, name, title, (timestamp/1e3)], (err, res) => {
 			if(err) return console.error(err);
-			//pool.end();
 		});
 	},
 
 	this.get_urls = function(callback) {
-		//const pool = new pg.Pool(config);
 		pool.query('SELECT url, name, title, time FROM urls;', (err, res) => {
 			if(err) return callback(err)
-			//console.log(res.rows)
 			callback(null, res.rows)
-			//pool.end();
 		});
 	}
 };
