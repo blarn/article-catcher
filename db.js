@@ -23,11 +23,31 @@ module.exports = function() {
 			if(err) return console.error(err);
 		});
 	},
-
-	this.get_urls = function(callback) {
-		pool.query('SELECT url, name, title, time FROM urls;', (err, res) => {
+	
+	this.get_db = function(db, callback) {
+		switch(db) {
+			case 'urls':
+				var query = 'SELECT url, name, title, time FROM urls;'
+				break;
+			case 'stickers':
+				var query = 'SELECT url, count FROM stickers;'
+				break;
+			default:
+				callback(null, null)
+		}
+		pool.query(query, (err, res) => {
 			if(err) return callback(err)
 			callback(null, res.rows)
+		});
+	},
+
+	this.upsert_sticker = function(id, url, count) {
+		//TODO write upsert
+	},
+
+	this.add_sticker = function(id, url, count) {
+		pool.query("INSERT INTO stickers(id, url, count) VALUES($1,$2,$3);", [id, url, count], (err, res) => {
+			if(err) return console.error(err);
 		});
 	}
 };

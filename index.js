@@ -18,9 +18,17 @@ app.use(express.static(path.join(__dirname, 'public') , options));
 
 app.get('/', function(req, res)
 {
-	get_urls((err, rows) => {
+	get_db('urls',(err, rows) => {
 		if(err) return console.error(err);
 		res.render('url_list', {urls: rows.reverse()});
+	});
+});
+
+app.get('/stickos', function(req, res)
+{
+	get_db('stickers',(err, rows) => {
+		if(err) return console.error(err);
+		res.render('stickos', {stickers: rows});
 	});
 });
 
