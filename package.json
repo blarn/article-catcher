@@ -1,5 +1,5 @@
 {
-  "name": "heroku_testing_app",
+  "name": "article_catcher",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {

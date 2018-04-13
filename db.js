@@ -23,14 +23,14 @@ module.exports = function() {
 			if(err) return console.error(err);
 		});
 	},
-	
+
 	this.get_db = function(db, callback) {
 		switch(db) {
 			case 'urls':
 				var query = 'SELECT url, name, title, time FROM urls;'
 				break;
 			case 'stickers':
-				var query = 'SELECT url, count FROM stickers;'
+				var query = 'SELECT url, count FROM stickers ORDER BY count DESC;'
 				break;
 			default:
 				callback(null, null)
@@ -41,13 +41,19 @@ module.exports = function() {
 		});
 	},
 
-	this.upsert_sticker = function(id, url, count) {
-		//TODO write upsert
-	},
-
-	this.add_sticker = function(id, url, count) {
-		pool.query("INSERT INTO stickers(id, url, count) VALUES($1,$2,$3);", [id, url, count], (err, res) => {
+	this.upsert_sticker = function(id, url) {
+		pool.query('SELECT * FROM stickers WHERE id=$1', [id], (err, res) => {
 			if(err) return console.error(err);
+			if(res.rows.length == 0) {
+				var query = 'INSERT INTO stickers(id, url, count) VALUES($1,$2,1);'
+				var params =  [id, url]
+			} else {
+				var query = 'UPDATE stickers SET count=count+1 WHERE id=$1;'
+				var params =  [id]
+			}
+			pool.query(query, params, (err, res) => {
+				if(err) return console.error(err);
+			});
 		});
 	}
 };
