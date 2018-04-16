@@ -14,7 +14,9 @@ var options = {
 	extensions: ['htm', 'html'],
 	index: false
 };
+
 app.use(express.static(path.join(__dirname, 'public') , options));
+app.use(express.static('views/images')); 
 
 app.get('/', function(req, res)
 {
@@ -30,6 +32,12 @@ app.get('/stickos', function(req, res)
 		if(err) return console.error(err);
 		res.render('stickos', {stickers: rows});
 	});
+});
+
+app.use(function(req,res) {
+	res.status(404);
+	var num = Math.floor(Math.random() * 8) + 1;
+	res.render('404', {layout: '404_layout', num:num});
 });
 
 app.listen(app.get('port'),  function () {
