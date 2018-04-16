@@ -1,1 +1,1 @@
-web: node index.js
+web: forever fb_listener.js | node index.js
