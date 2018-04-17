@@ -30,7 +30,7 @@ module.exports = function() {
 				var query = 'SELECT url, name, title, time FROM urls;'
 				break;
 			case 'stickers':
-				var query = 'SELECT url, count FROM stickers ORDER BY count DESC;'
+				var query = 'SELECT url, count FROM stickers ORDER BY count DESC, time DESC;'
 				break;
 			default:
 				callback(null, null)
