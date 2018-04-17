@@ -41,15 +41,15 @@ module.exports = function() {
 		});
 	},
 
-	this.upsert_sticker = function(id, url) {
+	this.upsert_sticker = function(id, url, timestamp) {
 		pool.query('SELECT * FROM stickers WHERE id=$1', [id], (err, res) => {
 			if(err) return console.error(err);
 			if(res.rows.length == 0) {
-				var query = 'INSERT INTO stickers(id, url, count) VALUES($1,$2,1);'
-				var params =  [id, url]
+				var query = 'INSERT INTO stickers(id, url, count, time) VALUES($1,$2,1,to_timestamp($3));'
+				var params =  [id, url, timestamp]
 			} else {
-				var query = 'UPDATE stickers SET count=count+1 WHERE id=$1;'
-				var params =  [id]
+				var query = 'UPDATE stickers SET count=count+1, time=to_timestamp($2) WHERE id=$1;'
+				var params =  [id, timestamp]
 			}
 			pool.query(query, params, (err, res) => {
 				if(err) return console.error(err);

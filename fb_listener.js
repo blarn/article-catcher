@@ -62,7 +62,7 @@ login({appState: JSON.parse(fs.readFileSync(__dirname + '/appstate.json', 'utf8'
 			//Stickers:
 			if(message.attachments.length==1 && message.attachments[0].type=='sticker') {
 				//console.log("Sticker: "+ JSON.stringify(message.attachments[0]))
-				upsert_sticker(message.attachments[0].ID, message.attachments[0].url)
+				upsert_sticker(message.attachments[0].ID, message.attachments[0].url, message.timestamp)
 			}
 		}
 	});
