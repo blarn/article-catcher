@@ -30,7 +30,13 @@ app.get('/stickos', function(req, res)
 {
 	get_db('stickers',(err, rows) => {
 		if(err) return console.error(err);
-		res.render('stickos', {stickers: rows});
+	
+		query('SELECT url, count FROM stickers ORDER BY time DESC;', (err, res1) => {
+			if(err) return console.error(err);
+
+			res.render('stickos', {stickers_by_count: rows.slice(0,5), stickers_by_time: res1.rows});
+
+		});
 	});
 });
 

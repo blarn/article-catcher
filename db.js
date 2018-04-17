@@ -18,6 +18,10 @@ if(process.env.DATABASE_URL) {
 const pool = new pg.Pool(config);
 
 module.exports = function() {
+	this.query = function(query, params, callback) {
+		pool.query(query, params, callback);
+	},
+
 	this.add_url = function(url, name, title, timestamp) {
 		pool.query("INSERT INTO urls(url, name, title, time) VALUES($1,$2,$3,to_timestamp($4));", [url, name, title, (timestamp/1e3)], (err, res) => {
 			if(err) return console.error(err);
