@@ -50,10 +50,10 @@ module.exports = function() {
 			if(err) return console.error(err);
 			if(res.rows.length == 0) {
 				var query = 'INSERT INTO stickers(id, url, count, time) VALUES($1,$2,1,to_timestamp($3));'
-				var params =  [id, url, timestamp]
+				var params =  [id, url, (timestamp/1e3)]
 			} else {
 				var query = 'UPDATE stickers SET count=count+1, time=to_timestamp($2) WHERE id=$1;'
-				var params =  [id, timestamp]
+				var params =  [id, (timestamp/1e3)]
 			}
 			pool.query(query, params, (err, res) => {
 				if(err) return console.error(err);
