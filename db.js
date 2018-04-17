@@ -27,7 +27,7 @@ module.exports = function() {
 	this.get_db = function(db, callback) {
 		switch(db) {
 			case 'urls':
-				var query = 'SELECT url, name, title, time FROM urls;'
+				var query = 'SELECT url, name, title, time FROM urls ORDER BY time;'
 				break;
 			case 'stickers':
 				var query = 'SELECT url, count FROM stickers ORDER BY count DESC, time DESC;'
