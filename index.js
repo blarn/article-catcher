@@ -40,6 +40,11 @@ app.get('/stickos', function(req, res)
 	});
 });
 
+app.get('/test', function(req, res)
+{
+	res.render('test');
+});
+
 app.use(function(req,res) {
 	res.status(404);
 	var num = Math.floor(Math.random() * 8) + 1;
